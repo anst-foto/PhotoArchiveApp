@@ -6,7 +6,7 @@
         x:Class="PhotoArchiveApp.Desktop.MainWindow"
         Title="PhotoArchiveApp.Desktop">
     <Grid ColumnDefinitions="*, *"
-          RowDefinitions="50, 50">
+          RowDefinitions="50, Auto">
         <Grid Grid.Row="0" Grid.Column="0"
               ColumnDefinitions="Auto, *, Auto">
             <Label Grid.Column="0"
@@ -33,10 +33,13 @@
                     Click="ButtonDist_OnClick"/>
         </Grid>
 
-        <Grid Grid.Row="1" Grid.Column="1">
-            <Button x:Name="ButtonRunRelocate"
+        <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+              RowDefinitions="*,*">
+            <Button Grid.Row="0" x:Name="ButtonRunRelocate"
                     Content="Отсортировать фотографии"
                     Click="ButtonRunRelocate_OnClick"/>
+            <ProgressBar Grid.Row="1"
+                         x:Name="ProgressRelocating"/>
         </Grid>
     </Grid>
 </Window>

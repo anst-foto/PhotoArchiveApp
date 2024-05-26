@@ -1,12 +1,16 @@
-using Avalonia.Controls;
-
 namespace PhotoArchiveApp.Desktop;
 
+using System;
 using System.Linq;
 using System.Threading.Tasks;
+
+using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
+
 using CoreLib;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Enums;
 
 public partial class MainWindow : Window
 {
@@ -29,7 +33,7 @@ public partial class MainWindow : Window
     private async void ButtonSource_OnClick(object? sender, RoutedEventArgs e) => this.InputSource.Text = await this.OpenFolderDialogShow();
     private async void ButtonDist_OnClick(object? sender, RoutedEventArgs e) => this.InputDist.Text = await this.OpenFolderDialogShow();
 
-    private void ButtonRunRelocate_OnClick(object? sender, RoutedEventArgs e)
+    private async void ButtonRunRelocate_OnClick(object? sender, RoutedEventArgs e)
     {
         var source = this.InputSource.Text;
         var dist = this.InputDist.Text;
@@ -38,8 +42,31 @@ public partial class MainWindow : Window
             return;
         }
 
+        var progress = new Progress<int>();
+        progress.ProgressChanged += (s, i) =>
+        {
+            this.ProgressRelocating.Value = i;
+        };
+
         var files = FileService.GetFiles(source);
         var photos = FileService.GetPhotosInfos(files);
-        FileService.RelocatePhotos(photos, dist);
+        this.ProgressRelocating.Minimum = 0;
+        this.ProgressRelocating.Maximum = photos.Count();
+        try
+        {
+            var result = FileService.RelocatePhotos(photos, dist, progress);
+            if (result)
+            {
+                await MessageBoxManager
+                    .GetMessageBoxStandard("", "Успешно перемещено")
+                    .ShowAsync();
+            }
+        }
+        catch (Exception exception)
+        {
+            await MessageBoxManager
+                .GetMessageBoxStandard("", $"Ошибка перемещения. {exception.Message}")
+                .ShowAsync();
+        }
     }
 }
