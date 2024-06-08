@@ -4,6 +4,7 @@ public static class FileService
 {
     public static IEnumerable<string> GetFiles(string pathDirectory)
     {
+        //TODO try{} catch{}
         var direcory = new DirectoryInfo(pathDirectory);
         var files = direcory.GetFiles();
         return files.Where(IsPhoto).Select(f => f.FullName);
