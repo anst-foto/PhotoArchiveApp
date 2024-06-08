@@ -37,7 +37,7 @@
               RowDefinitions="*,*">
             <Button Grid.Row="0" x:Name="ButtonRunRelocate"
                     Content="Отсортировать фотографии"
-                    Click="ButtonRunRelocate_OnClick"/>
+                    Click="ButtonTest_OnClick"/>
             <ProgressBar Grid.Row="1"
                          x:Name="ProgressRelocating"/>
         </Grid>

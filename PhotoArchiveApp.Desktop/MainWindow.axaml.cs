@@ -33,6 +33,11 @@ public partial class MainWindow : Window
     private async void ButtonSource_OnClick(object? sender, RoutedEventArgs e) => this.InputSource.Text = await this.OpenFolderDialogShow();
     private async void ButtonDist_OnClick(object? sender, RoutedEventArgs e) => this.InputDist.Text = await this.OpenFolderDialogShow();
 
+    private void ButtonTest_OnClick(object? sender, RoutedEventArgs e)
+    {
+        throw new NotImplementedException();
+    }
+
     private async void ButtonRunRelocate_OnClick(object? sender, RoutedEventArgs e)
     {
         var source = this.InputSource.Text;
